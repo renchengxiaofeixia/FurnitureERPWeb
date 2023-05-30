@@ -102,12 +102,12 @@ const User = () => {
 
     return (
         <>
-            <Row style={{ height: '48px', alignItems: "center" }}>
+            <Row className="mar_bottom">
                 <Col>
                     <Search width={800} placeholder="用户名" onSearch={onSearch} enterButton />
                 </Col>
             </Row>
-            <Row style={{ height: '48px', alignItems: "center" }}>
+            <Row className="mar_bottom">
                 <Col>
                     <Space>
                         {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}

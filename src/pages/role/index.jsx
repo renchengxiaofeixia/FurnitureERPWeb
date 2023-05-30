@@ -44,16 +44,16 @@ const Role = () => {
         }
     }
 
-    const onRolePermitClose = (success) =>{
+    const onRolePermitClose = (success) => {
         setShowRolePermitModal(false)
 
     }
 
-    const getSelectedRole = ()=>{
+    const getSelectedRole = () => {
         return gridRef.current.api.getSelectedRows()[0];
     }
 
-    const setSelectRoleId = ()=>{
+    const setSelectRoleId = () => {
         let selectedRole = getSelectedRole()
         if (!selectedRole) {
             message.info('请选择一条数据修改!!')
@@ -70,19 +70,19 @@ const Role = () => {
                 setEditRoleId(0)
                 break;
             case actionType.EDIT:
-                if(setSelectRoleId())
+                if (setSelectRoleId())
                     setShowEditModal(true)
                 break;
             case actionType.DELETE:
-                if(setSelectRoleId())
+                if (setSelectRoleId())
                     setShowMessageModal(true)
                 break;
-            case actionType.CREATE_ROLEUSER:       
-                if(setSelectRoleId())     
+            case actionType.CREATE_ROLEUSER:
+                if (setSelectRoleId())
                     setShowRoleUserModal(true)
-                break; 
+                break;
             case actionType.ROLE_PERMIT:
-                if(setSelectRoleId())
+                if (setSelectRoleId())
                     setShowRolePermitModal(true)
                 break;
             default:
@@ -114,23 +114,21 @@ const Role = () => {
 
     return (
         <>
-            <Row style={{ height: '48px', alignItems: "center" }}>
+            <Row style={{ height: '40px', alignItems: "center" }}>
                 <Col>
                     <Space>
                         {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
                     </Space>
                 </Col>
             </Row>
-            <Row style={{ flexGrow: 1 }}>
-                <Col flex="auto" style={{ display: 'flex', flexDirection: 'column' }}>
-                    <DataGrid
-                        ref={gridRef}
-                        rowData={roles}
-                        columnDefs={columns}
-                    />
-                </Col>
+            <Row className="flex">
+                <DataGrid
+                    ref={gridRef}
+                    rowData={roles}
+                    columnDefs={columns}
+                />
             </Row>
-            
+
             {showRolePermitModal ? <RolePermitModal id={roleId} onClose={onRolePermitClose} /> : <></>}
             {showRoleUserModal ? <RoleUserModal id={roleId} onClose={onRoleUserClose} /> : <></>}
             {showEditModal ? <EditRoleModal id={roleId} onClose={onEditClose} /> : <></>}

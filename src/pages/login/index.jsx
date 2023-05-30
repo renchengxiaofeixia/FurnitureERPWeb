@@ -10,29 +10,28 @@ import menus from '@/permissions/menu'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
-  const userInfo = useSelector(state=>state.login)
+  const userInfo = useSelector(state => state.login)
   const navigate = useNavigate()
-  useEffect(() => {
-    const { token } = userInfo
-    if (token) {
-      navigate('/')
-    }
-  }, [dispatch, userInfo])
+
+  // useEffect(() => {
+  //   const { token } = userInfo
+  //   if (token) {
+  //     navigate('/')
+  //   }
+  // }, [dispatch, userInfo])
 
   // 触发登录方法
   const onFinish = async (values) => {
     const { userName, password } = values
     try {
       const res = await authApi.signin({ userName, password })
-      localStorage.setItem("token",res.data.token)
-      dispatch(setLoginInfo({...res.data,menus:menus}))
+      localStorage.setItem("token", res.data.token)
+      dispatch(setLoginInfo({ ...res.data, menus: menus }))
       navigate('/')
     } catch (e) {
       const response = e.response // Axios异常
       message.error(
-        response
-          ? `${response.data}`
-          : `${e}`
+        response ? `${response.data}` : `${e}`
       )
     }
   }

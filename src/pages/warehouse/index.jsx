@@ -89,7 +89,7 @@ const Warehouse = () => {
 
     return (
         <>
-            <Row style={{ height: '48px', alignItems: "center" }}>
+            <Row className="mar_bottom">
                 <Col>
                     <Space>
                         {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}

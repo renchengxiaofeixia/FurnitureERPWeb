@@ -1,4 +1,4 @@
-import request from '@/api/request'
+import request from '@/service/index'
 
 export const createShop = shop => request.post('/shop',shop)
 export const getShop = id => request.get(`/shop/${id}`)

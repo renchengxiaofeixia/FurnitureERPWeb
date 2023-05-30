@@ -1,6 +1,7 @@
-import { Button, Form, Input, Modal, Checkbox,App,Divider } from 'antd';
+import { Button, Form, Input,  Checkbox, App } from 'antd';
 import { useEffect, useState } from 'react';
 import { userApi } from '@/api'
+import PopupModal from "@/components/PopupModal"
 
 const { TextArea } = Input;
 
@@ -17,7 +18,7 @@ const EditUserModal = ({ id, onClose }) => {
     }
 
     useEffect(() => {
-        if(id > 0) getUser(id)
+        if (id > 0) getUser(id)
     }, [])
 
     const onOk = () => {
@@ -25,13 +26,13 @@ const EditUserModal = ({ id, onClose }) => {
     }
 
     const onFinish = async (values) => {
-        id > 0 ? await updateUser(id,values) : await createUser(values)
+        id > 0 ? await updateUser(id, values) : await createUser(values)
     };
 
-    const updateUser = async (id,user)=>{
-        try{
-            const res = await userApi.updateUser(id,user)
-            if(res.status == 200){
+    const updateUser = async (id, user) => {
+        try {
+            const res = await userApi.updateUser(id, user)
+            if (res.status == 200) {
                 message.success('修改成功!!')
                 onClose(true)
             }
@@ -41,10 +42,10 @@ const EditUserModal = ({ id, onClose }) => {
         }
     }
 
-    const createUser = async (user)=>{
-        try{
+    const createUser = async (user) => {
+        try {
             const res = await userApi.createUser(user)
-            if(res.status == 201){
+            if (res.status == 201) {
                 message.success('新增成功!!')
                 onClose(true)
             }
@@ -56,13 +57,12 @@ const EditUserModal = ({ id, onClose }) => {
 
     return (
         <>
-            <Modal title={id > 0 ? '编辑' : '新增'} open={true} onOk={onOk} onCancel={onClose}>
-                <Divider />
+            <PopupModal title={id > 0 ? '编辑' : '新增'} open={true} onOk={onOk} onCancel={onClose}>
                 <Form form={form}
                     name="userinfo"
                     initialValues={{}}
                     onFinish={onFinish}
-                    labelCol={{ span:4  }}
+                    labelCol={{ span: 4 }}
                 >
                     <Form.Item label="用户名:"
                         name="userName"
@@ -91,7 +91,7 @@ const EditUserModal = ({ id, onClose }) => {
                         />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </PopupModal>
         </>
     );
 };

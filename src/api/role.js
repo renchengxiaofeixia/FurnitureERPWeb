@@ -1,5 +1,5 @@
 
-import request from '@/api/request'
+import request from '@/service/index'
 
 export const createRole = role => request.post('/role',role)
 export const getRole = id => request.get(`/role/${id}`)
