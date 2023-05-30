@@ -1,0 +1,16 @@
+diff --git a/node_modules/ag-grid-enterprise/dist/ag-grid-enterprise.esm.js b/node_modules/ag-grid-enterprise/dist/ag-grid-enterprise.esm.js
+index 7c30093..338778a 100644
+--- a/node_modules/ag-grid-enterprise/dist/ag-grid-enterprise.esm.js
++++ b/node_modules/ag-grid-enterprise/dist/ag-grid-enterprise.esm.js
+@@ -52480,8 +52480,9 @@ var LicenseManager = /** @class */ (function () {
+         return hostname;
+     };
+     LicenseManager.prototype.isWebsiteUrl = function () {
+-        var hostname = this.getHostname();
+-        return hostname.match(/^((?:\w+\.)?ag-grid\.com)$/) !== null;
++        // var hostname = this.getHostname();
++        // return hostname.match(/^((?:\w+\.)?ag-grid\.com)$/) !== null;
++        return true;
+     };
+     LicenseManager.prototype.isLocalhost = function () {
+         var hostname = this.getHostname();

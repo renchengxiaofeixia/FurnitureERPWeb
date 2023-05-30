@@ -1,0 +1,86 @@
+.column-setting {
+    width: auto
+}
+
+.column-setting-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px
+}
+
+.column-setting-overlay .ant-popover-inner-content {
+    width: 200px;
+    padding: 0 0 8px
+}
+
+.column-setting-overlay .ant-tree-node-content-wrapper:hover {
+    background-color: transparent
+}
+
+.column-setting-overlay .ant-tree-draggable-icon {
+    cursor: -webkit-grab;
+    cursor: grab
+}
+
+.column-setting-overlay .ant-tree-treenode {
+    align-items: center
+}
+
+
+.column-setting-overlay .ant-tree-treenode:hover .column-setting-list-item-option {
+    display: block
+}
+
+.column-setting-overlay .ant-tree-treenode .ant-tree-checkbox {
+    top: 0;
+    margin: 0 4px 0 0
+}
+
+.column-setting-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 8px
+}
+
+.column-setting-list .column-setting-list-group {
+    padding-top: 0
+}
+
+.column-setting-list-title {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding-left: 24px;
+    color: rgba(0,0,0,.45);
+    font-size: 12px
+}
+
+
+.column-setting-list-item {
+    display: flex;
+    align-items: center
+}
+
+.column-setting-list-item {
+    &:hover .column-setting-list-item-option{
+        display: block;
+    }
+}
+
+.column-setting-list-item-option>span+span {
+    margin-left: 8px
+}
+
+
+.column-setting-list-item-title {
+    flex: 1 1
+}
+
+.column-setting-list-item-option {
+    display: none;
+    float: right;
+    cursor: pointer    
+}
+
+
