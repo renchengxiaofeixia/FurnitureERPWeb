@@ -116,17 +116,6 @@ const User = () => {
             </Row>
             <Row style={{ flexGrow: 1 }}>
                 <Col flex="auto" style={{ display: 'flex', flexDirection: 'column' }}>
-                    {/* <div className="ag-theme-balham" style={{ flexGrow: 1 }}>
-                        <AgGridReact
-                            ref={gridRef}
-                            rowData={users}
-                            columnDefs={columns}
-                            animateRows={true}
-                            rowSelection={'single'}
-                            onSelectionChanged={onSelectionChanged}
-                            onSortChanged={onSortChanged}
-                        />
-                    </div> */}
                     <DataGrid
                         ref={gridRef}
                         rowData={users}

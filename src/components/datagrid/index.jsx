@@ -21,7 +21,7 @@ const DataGrid = forwardRef(({ rowData, columnDefs,onSelectionChanged, },ref) =>
     }, []);
     const rowIdColumn = {
         headerName: '#',
-        maxWidth: 80,
+        maxWidth: 40,
         cellRenderer: params =>{
         return params.rowIndex+1;
         },

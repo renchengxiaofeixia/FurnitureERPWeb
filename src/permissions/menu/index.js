@@ -42,11 +42,11 @@ const menus = [
         key:'system',
         children:[
             {
-                label: '用户信息',
+                label: '用户',
                 key: '/user',
             },
             {
-                label: '角色信息',
+                label: '角色',
                 key: '/role',    
             },
         ]

@@ -117,11 +117,11 @@ const AppLayout = () => {
     <App>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible onCollapse={() => dispatch(setCollapsed(!collapsed))} style={{
-          background: colorBgContainer,
+          background: '#001529',
         }}>
-          <div className="demo-logo-vertical" />
+          <div className="logo-vertical" />
           <Menu defaultSelectedKeys={['/dashboard']} selectedKeys ={selectMenuKeys} 
-            mode="inline" items={menus} onClick={menuClick}
+            mode="inline" theme='dark' items={menus} onClick={menuClick}
             openKeys={openKeys}
             onOpenChange={onOpenChange}
             />
@@ -135,7 +135,7 @@ const AppLayout = () => {
           />
           <Content
             style={{
-              margin: '0', display: 'flex', flexDirection: 'column'
+              margin:0, display: 'flex', flexDirection: 'column'
             }}
           >
             <Tabs className='tab_heade_content'
