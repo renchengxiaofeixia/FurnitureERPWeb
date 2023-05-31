@@ -5,7 +5,7 @@ import { buttons, columns } from '@/permissions/user'
 import { userApi } from '@/api'
 import EditUserModal from './edit'
 import MessageModal from "@/components/modal";
-import DataGrid from "../../components/datagrid";
+import DataGrid from "@/components/Datagrid";
 
 import constant from '@/utils/constant'
 const { actionType } = constant
@@ -82,7 +82,7 @@ const User = () => {
                 setEditUserId(selectedUser.id)
                 break;
             case actionType.DELETE:
-                
+
                 let deleteUser = gridRef.current.api.getSelectedRows()[0]
                 if (!deleteUser) {
                     message.info('请选择一条用户数据!!')
@@ -101,22 +101,19 @@ const User = () => {
     }
 
     return (
-        <>
-            <Row className="mar_bottom">
-                <Col>
-                    <Search width={800} placeholder="用户名" onSearch={onSearch} enterButton />
-                </Col>
-            </Row>
-            <Row className="mar_bottom">
-                <Col>
-                    <Space>
-                        {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
-                    </Space>
-                </Col>
-            </Row>
-            <Row style={{ flexGrow: 1 }}>
-                <Col flex="auto" style={{ display: 'flex', flexDirection: 'column' }}>
-                    {/* <div className="ag-theme-balham" style={{ flexGrow: 1 }}>
+        <Row style={{ flex: '1', flexDirection: 'column', padding: '0 10px' }}>
+            <Col flex="40px" style={{ alignItems: "center" }}>
+                <Search width={800} placeholder="用户名" onSearch={onSearch} enterButton />
+            </Col>
+
+            <Col flex="40px" style={{ alignItems: "center" }}>
+                <Space>
+                    {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
+                </Space>
+            </Col>
+
+
+            {/* <div className="ag-theme-balham" style={{ flexGrow: 1 }}>
                         <AgGridReact
                             ref={gridRef}
                             rowData={users}
@@ -127,16 +124,16 @@ const User = () => {
                             onSortChanged={onSortChanged}
                         />
                     </div> */}
-                    <DataGrid
-                        ref={gridRef}
-                        rowData={users}
-                        columnDefs={columns}
-                    />
-                </Col>
-            </Row>
+            <DataGrid
+                ref={gridRef}
+                rowData={users}
+                columnDefs={columns}
+            />
+
+
             {showEditModal ? <EditUserModal id={userId} onClose={onEditClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条用户数据？" /> : <></>}
-        </>
+        </Row>
     )
 
 }

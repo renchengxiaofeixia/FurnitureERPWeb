@@ -34,4 +34,4 @@ export const BatchEditItemCat = (data) => request.put(`/item/cats`, data);
 export const ProductInfoByItemNo = (itemNo) => request.get(`/item/itemNo/${itemNo}`)
 
 // 恢复删除商品
-export const RestoreItem = (id,data) => request.put(`/item/${id}`,data)
+export const RestoreItem = (id, data) => request.put(`/item/${id}`, data)

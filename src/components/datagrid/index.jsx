@@ -8,9 +8,9 @@ import AG_GRID_LOCALE_ZH from './locale.zh'
 import { SettingOutlined } from '@ant-design/icons'
 import { useCallback, forwardRef, useState } from "react";
 // import ColumnSettingModal from "../../components/columsetting";
-import ColumnSettingPopover from "../../components/columsetting"
+import ColumnSettingPopover from "@/components/columsetting"
 
-const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOptions }, ref) => {
+const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, style, className, gridOptions }, ref) => {
 
     const [showColumnSettingModal, setShowColumnSettingModal] = useState(false);
 
@@ -38,7 +38,7 @@ const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOpti
     }
     return (
         <>
-            <Col className="ag-theme-balham" flex="auto">
+            <Col className={`ag-theme-balham ${className}`} flex="auto" style={style}>
                 <AgGridReact
                     ref={ref}
                     rowData={rowData}
@@ -48,7 +48,7 @@ const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOpti
                     localeText={localeText}
                     onSelectionChanged={onSelectionChanged}
                     onSortChanged={onSortChanged}
-                    gridOptions={gridOptions}
+                    {...gridOptions}
                 />
             </Col>
 

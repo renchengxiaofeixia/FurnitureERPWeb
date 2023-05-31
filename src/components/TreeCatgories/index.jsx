@@ -15,7 +15,6 @@ function catgoriesTreeData(data) {
         let cats = catdts.filter(j => j.pid == k.guid)
         k.children = cats;
         k.value = k.title = k.cateName
-
     });
     cateTreeData = catdts.filter(k => !k.pid);
     return [...cateTreeData];

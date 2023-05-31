@@ -114,7 +114,7 @@ const AppLayout = () => {
 
   return (
     <App>
-      <Layout className='body-layout'>
+      <Layout className='layout'>
         <Header style={{ height: '40px' }}></Header>
         <Layout>
           <Sider collapsible onCollapse={() => dispatch(setCollapsed(!collapsed))} style={{
@@ -129,7 +129,7 @@ const AppLayout = () => {
             />
           </Sider>
 
-          <Content className='display_flex flex_column'>
+          <Content className='content'>
             <Tabs className='tab_heade_content'
               hideAdd
               size='small'
@@ -143,10 +143,10 @@ const AppLayout = () => {
             {/* <Outlet /> */}
             <Footer
               style={{
-                textAlign: 'center',
+                height: '10px'
               }}
             >
-              Ant Design ©2023 Created by Ant UED
+
             </Footer>
           </Content>
         </Layout>

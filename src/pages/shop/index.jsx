@@ -5,7 +5,7 @@ import { buttons, columns } from '@/permissions/shop'
 import { shopApi } from '@/api'
 import EditShopModal from './edit'
 import MessageModal from "@/components/modal";
-import DataGrid from "../../components/datagrid";
+import DataGrid from "@/components/Datagrid";
 import constant from '@/utils/constant'
 const { actionType } = constant
 
@@ -88,25 +88,23 @@ const Shop = () => {
 
 
     return (
-        <>
-            <Row className="mar_bottom">
-                <Col>
-                    <Space>
-                        {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
-                    </Space>
-                </Col>
-            </Row>
-            <Row className="flex">
-                <DataGrid
-                    ref={gridRef}
-                    rowData={ets}
-                    columnDefs={columns}
-                />
-            </Row>
+        <Row style={{ flex: '1', flexDirection: 'column', padding: '0 10px' }}>
+
+            <Col flex="40px" style={{ alignItems: "center" }}>
+                <Space>
+                    {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
+                </Space>
+            </Col>
+
+            <DataGrid
+                ref={gridRef}
+                rowData={ets}
+                columnDefs={columns}
+            />
 
             {showEditModal ? <EditShopModal id={id} onClose={onEditClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条店铺数据？" /> : <></>}
-        </>
+        </Row>
     )
 
 }

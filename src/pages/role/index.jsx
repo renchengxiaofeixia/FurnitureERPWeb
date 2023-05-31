@@ -7,7 +7,7 @@ import EditRoleModal from './edit'
 import RoleUserModal from "./roleuser";
 import RolePermitModal from "./rolepermit";
 import MessageModal from "@/components/modal";
-import DataGrid from "../../components/datagrid";
+import DataGrid from "@/components/Datagrid";
 import constant from '@/utils/constant'
 const { actionType } = constant
 
@@ -113,27 +113,25 @@ const Role = () => {
 
 
     return (
-        <>
-            <Row style={{ height: '40px', alignItems: "center" }}>
-                <Col>
-                    <Space>
-                        {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
-                    </Space>
-                </Col>
-            </Row>
-            <Row className="flex">
-                <DataGrid
-                    ref={gridRef}
-                    rowData={roles}
-                    columnDefs={columns}
-                />
-            </Row>
+        <Row style={{ flex: '1', flexDirection: 'column', padding: '0 10px' }}>
+
+            <Col flex="40px" style={{ alignItems: "center" }}>
+                <Space>
+                    {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
+                </Space>
+            </Col>
+
+            <DataGrid
+                ref={gridRef}
+                rowData={roles}
+                columnDefs={columns}
+            />
 
             {showRolePermitModal ? <RolePermitModal id={roleId} onClose={onRolePermitClose} /> : <></>}
             {showRoleUserModal ? <RoleUserModal id={roleId} onClose={onRoleUserClose} /> : <></>}
             {showEditModal ? <EditRoleModal id={roleId} onClose={onEditClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条角色数据？" /> : <></>}
-        </>
+        </Row >
     )
 
 }
