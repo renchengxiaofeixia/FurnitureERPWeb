@@ -1,21 +1,22 @@
-import { Modal, Transfer, App, Divider } from 'antd';
+import { Transfer, App } from 'antd';
 import { useEffect, useState } from 'react';
-import { roleApi,userApi } from '@/api'
+import { roleApi, userApi } from '@/api'
+import PopupModal from "@/components/PopupModal"
 
 const RoleUserModal = ({ id, onClose }) => {
     const { message } = App.useApp();
 
-    const [users,setUsers] = useState([])
+    const [users, setUsers] = useState([])
     const [targetKeys, setTargetKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
 
     const getRoleUsers = async (id) => {
-        try{
-            const userRes = await userApi.getUsers()     
-            setUsers(userRes.data.map(u=> {return { key : u.id, title:u.userName}}))
-            const roleRes = await roleApi.getRoleUsers(id)   
-            setTargetKeys(roleRes.data.map(u=> u.id))
-        }catch(e){
+        try {
+            const userRes = await userApi.getUsers()
+            setUsers(userRes.data.map(u => { return { key: u.id, title: u.userName } }))
+            const roleRes = await roleApi.getRoleUsers(id)
+            setTargetKeys(roleRes.data.map(u => u.id))
+        } catch (e) {
             message.error(`数据刷新失败!! 错误:${e.response.data}`)
         }
     }
@@ -25,7 +26,7 @@ const RoleUserModal = ({ id, onClose }) => {
     }, [])
 
     const onOk = async () => {
-        await createRoleUsers({roleId:id,userIds:targetKeys})
+        await createRoleUsers({ roleId: id, userIds: targetKeys })
     }
 
     const createRoleUsers = async (roleUsers) => {
@@ -51,8 +52,7 @@ const RoleUserModal = ({ id, onClose }) => {
     };
     return (
         <>
-            <Modal title="角色用户" open={true} onOk={onOk} onCancel={onClose} bodyStyle={{height: 400}}>
-                <Divider />
+            <PopupModal title="角色用户" open={true} onOk={onOk} onCancel={onClose} bodyStyle={{ height: 400 }}>
                 <Transfer
                     dataSource={users}
                     titles={['待选择', '已选择']}
@@ -67,7 +67,7 @@ const RoleUserModal = ({ id, onClose }) => {
                         height: 350,
                     }}
                 />
-            </Modal>
+            </PopupModal>
         </>
     );
 };

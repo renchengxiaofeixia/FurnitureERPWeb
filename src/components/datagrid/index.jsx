@@ -1,54 +1,58 @@
 import { useMemo } from 'react';
+import { Col } from 'antd'
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-balham.css';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community';
 import AG_GRID_LOCALE_ZH from './locale.zh'
 import { SettingOutlined } from '@ant-design/icons'
-import { useCallback,forwardRef,useState } from "react";
+import { useCallback, forwardRef, useState } from "react";
 // import ColumnSettingModal from "../../components/columsetting";
 import ColumnSettingPopover from "../../components/columsetting"
 
-const DataGrid = forwardRef(({ rowData, columnDefs,onSelectionChanged, },ref) => {
-    
+const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOptions }, ref) => {
+
     const [showColumnSettingModal, setShowColumnSettingModal] = useState(false);
 
     const localeText = useMemo(() => {
         return AG_GRID_LOCALE_ZH;
     }, []);
+
     const onSortChanged = useCallback(() => {
         ref.current.api.refreshCells();
     }, []);
+
     const rowIdColumn = {
         headerName: '#',
-        maxWidth: 40,
-        cellRenderer: params =>{
-        return params.rowIndex+1;
+        maxWidth: 80,
+        cellRenderer: params => {
+            return params.rowIndex + 1;
         },
         // headerComponent: ()=><SettingOutlined onClick={()=>{
         //     setShowColumnSettingModal(true)
         // }}/>,
 
-        headerComponent: ()=><ColumnSettingPopover columns={columnDefs}> 
-            <SettingOutlined/>
+        headerComponent: () => <ColumnSettingPopover columns={columnDefs}>
+            <SettingOutlined />
         </ColumnSettingPopover>,
     }
     return (
         <>
-            <div className="ag-theme-balham" style={{ flexGrow: 1 }}>
+            <Col className="ag-theme-balham" flex="auto">
                 <AgGridReact
                     ref={ref}
                     rowData={rowData}
-                    columnDefs={[rowIdColumn,...columnDefs]}
+                    columnDefs={[rowIdColumn, ...columnDefs]}
                     animateRows={true}
                     rowSelection={'single'}
                     localeText={localeText}
                     onSelectionChanged={onSelectionChanged}
                     onSortChanged={onSortChanged}
+                    gridOptions={gridOptions}
                 />
-            </div>
-            
-            {showColumnSettingModal ? <ColumnSettingModal columns={columnDefs} onClose={()=>setShowColumnSettingModal(false)} /> : <></>}
+            </Col>
+
+            {showColumnSettingModal ? <ColumnSettingModal columns={columnDefs} onClose={() => setShowColumnSettingModal(false)} /> : <></>}
         </>
     )
 })

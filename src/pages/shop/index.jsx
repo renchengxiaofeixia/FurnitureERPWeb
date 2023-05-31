@@ -32,11 +32,11 @@ const Shop = () => {
             loadShops()
         }
     }
-    const getSelectedRow = ()=>{
+    const getSelectedRow = () => {
         return gridRef.current.api.getSelectedRows()[0];
     }
 
-    const setSelectId = ()=>{
+    const setSelectId = () => {
         let selectedRow = getSelectedRow()
         if (!selectedRow) {
             message.info('请选择一条数据修改!!')
@@ -53,11 +53,11 @@ const Shop = () => {
                 setEditId(0)
                 break;
             case actionType.EDIT:
-                if(setSelectId())
+                if (setSelectId())
                     setShowEditModal(true)
                 break;
             case actionType.DELETE:
-                if(setSelectId())
+                if (setSelectId())
                     setShowMessageModal(true)
                 break;
             default:
@@ -89,23 +89,21 @@ const Shop = () => {
 
     return (
         <>
-            <Row style={{ height: '48px', alignItems: "center" }}>
+            <Row className="mar_bottom">
                 <Col>
                     <Space>
                         {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
                     </Space>
                 </Col>
             </Row>
-            <Row style={{ flexGrow: 1 }}>
-                <Col flex="auto" style={{ display: 'flex', flexDirection: 'column' }}>
-                    <DataGrid
-                        ref={gridRef}
-                        rowData={ets}
-                        columnDefs={columns}
-                    />
-                </Col>
+            <Row className="flex">
+                <DataGrid
+                    ref={gridRef}
+                    rowData={ets}
+                    columnDefs={columns}
+                />
             </Row>
-            
+
             {showEditModal ? <EditShopModal id={id} onClose={onEditClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条店铺数据？" /> : <></>}
         </>

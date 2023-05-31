@@ -1,5 +1,5 @@
 
-import request from '@/api/request'
+import request from '@/service/index'
 
 export const createUser = user => request.post('/user',user)
 export const getUser = id => request.get(`/user/${id}`)

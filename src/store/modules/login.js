@@ -6,7 +6,7 @@ export const userSlice = createSlice({
       userName: '',
       merchantName:'',
       menus: [],
-      token: null
+      token: localStorage.getItem("token") ?? null
   },
   reducers: {
     setLoginInfo: (state, action) => {

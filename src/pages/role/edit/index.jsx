@@ -1,6 +1,7 @@
-import { Button, Form, Input, Modal, App, Divider } from 'antd';
+import { Button, Form, Input, App } from 'antd';
 import { useEffect, useState } from 'react';
 import { roleApi } from '@/api'
+import PopupModal from "@/components/PopupModal"
 
 const { TextArea } = Input;
 
@@ -55,8 +56,7 @@ const EditRoleModal = ({ id, onClose }) => {
 
     return (
         <>
-            <Modal title={id > 0 ? '编辑' : '新增'} open={true} onOk={onOk} onCancel={onClose}>
-                <Divider />
+            <PopupModal title={id > 0 ? '编辑' : '新增'} open={true} onOk={onOk} onCancel={onClose}>
                 <Form form={form}
                     name="roleinfo"
                     initialValues={{}}
@@ -81,7 +81,7 @@ const EditRoleModal = ({ id, onClose }) => {
                         />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </PopupModal>
         </>
     );
 };
