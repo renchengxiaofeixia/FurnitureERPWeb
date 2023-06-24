@@ -7,6 +7,9 @@ import { ConfigProvider } from 'antd'
 import store from './store/';
 import locale from 'antd/locale/zh_CN';
 
+import 'reset-css'
+import './main.css'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <ConfigProvider

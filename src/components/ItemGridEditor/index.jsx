@@ -55,7 +55,7 @@ const GridEditor = forwardRef(({ rows, columns, width, height, stopEditing }, re
     }
 
     return (
-        <div className="ag-theme-balham" style={{ height, width }}>
+        <div className="ag-theme-balham" style={{ height, width,position:'fixed' }}>
             <input type="text" className='ag-input-field-input ag-text-field-input' onKeyDown={(e) => {
                 if (e.key == "ArrowDown") {
                     gridRef.current.api.getRenderedNodes()[0].setSelected(true);

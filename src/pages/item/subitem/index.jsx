@@ -9,7 +9,9 @@ import ItemGridEditor from '@/components/ItemGridEditor'
 
 const columnDefs = [    
     { field: 'picPath', headerName:'图片',width:'80px' },
-    { field: 'itemName', headerName:'名称',width:'233px',cellEditorPopup: true, editable: true,
+    { field: 'itemName', headerName:'名称',width:'233px',
+        cellEditorPopup: true, 
+        editable: true,
         cellEditorPopupPosition: 'over', 
         cellEditor: ItemGridEditor,
         cellEditorParams: {

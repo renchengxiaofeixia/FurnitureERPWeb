@@ -1,26 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 export const appSlice = createSlice({
-  name: 'app',
+  name: "app",
   initialState: {
     collapsed: false,
-    theme: 'dark',
-    menuMode: 'horizontal',
+    theme: "#333",
+    menuMode: "horizontal",
     // selectMenuKeys:[],
     // openMenuCacheKeys:[],
     // openKeys:[],
     // tabPanes:[],
     // tabActiveKey:'dashboard'
   },
-  
+
   reducers: {
     setTheme(state, action) {
-      state.theme = action.payload
+      state.theme = action.payload;
     },
     setCollapsed(state, action) {
-      state.collapsed = action.payload
+      state.collapsed = action.payload;
     },
     setMenuMode(state, action) {
-      state.menuMode = action.payload
+      state.menuMode = action.payload;
     },
     // setOpenMenuCacheKeys(state, action) {
     //   state.openMenuCacheKeys = action.payload
@@ -37,10 +37,9 @@ export const appSlice = createSlice({
     // setTabActiveKey(state, action) {
     //   state.tabActiveKey = action.payload
     // },
-  }
-})
+  },
+});
 
-export const { setCollapsed, setTheme, setMenuMode} = appSlice.actions
+export const { setCollapsed, setTheme, setMenuMode } = appSlice.actions;
 
-
-export default appSlice.reducer
+export default appSlice.reducer;
