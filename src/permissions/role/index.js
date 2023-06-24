@@ -3,24 +3,29 @@ const { actionType } = constant
 
 export const buttons = [
     {
+        id:'new',
         text:'新增',
         type:'primary',  
         action:actionType.ADD
     },
     {
+        id:'edit',
         text:'修改',
         action:actionType.EDIT
     },
     {
+        id:'delete',
         text:'删除',
         danger:true,
         action:actionType.DELETE
     },
     {
+        id:'roleuser',
         text:'角色用户',
         action:actionType.CREATE_ROLEUSER
     },
     {
+        id:'rolepermit',
         text:'角色权限',
         action:actionType.ROLE_PERMIT
     }

@@ -1,21 +1,22 @@
-import { Button, Form, Input, App } from 'antd';
+import { Button, Form, Input,  InputNumber , App, Row } from 'antd';
 import { useEffect, useState } from 'react';
-import { warehouseApi } from '@/api'
+import { itemApi } from '@/api'
 import PopupModal from "@/components/PopupModal"
+
 const { TextArea } = Input;
 
-const EditWarehouseModal = ({ id, onClose }) => {
+const EditItemModal = ({ id, onClose }) => {
     const { message } = App.useApp();
 
     const [form] = Form.useForm();
 
-    const getWarehouse = async (id) => {
-        const res = await warehouseApi.getWarehouse(id)
+    const getItem = async (id) => {
+        const res = await itemApi.getItem(id)
         form.setFieldsValue(res.data)
     }
 
     useEffect(() => {
-        if (id > 0) getWarehouse(id)
+        if (id > 0) getItem(id)
     }, [])
 
     const onOk = () => {
@@ -23,13 +24,12 @@ const EditWarehouseModal = ({ id, onClose }) => {
     }
 
     const onFinish = async (values) => {
-        id > 0 ? await updateWarehouse(id, values) : await createWarehouse(values)
+        id > 0 ? await updateItem(id, values) : await createItem(values)
     };
 
-
-    const updateWarehouse = async (id, role) => {
+    const updateItem = async (id, item) => {
         try {
-            const res = await warehouseApi.updateWarehouse(id, role)
+            const res = await itemApi.updateItem(id, item)
             if (res.status == 200) {
                 message.success('修改成功!!')
                 onClose(true)
@@ -40,9 +40,9 @@ const EditWarehouseModal = ({ id, onClose }) => {
         }
     }
 
-    const createWarehouse = async (et) => {
+    const createItem = async (item) => {
         try {
-            const res = await warehouseApi.createWarehouse(et)
+            const res = await itemApi.createItem(item)
             if (res.status == 201) {
                 message.success('新增成功!!')
                 onClose(true)
@@ -57,16 +57,30 @@ const EditWarehouseModal = ({ id, onClose }) => {
         <>
             <PopupModal title={id > 0 ? '编辑' : '新增'} open={true} onOk={onOk} onCancel={onClose}>
                 <Form form={form}
-                    name="Warehouse"
+                    name="iteminfo"
                     initialValues={{}}
                     onFinish={onFinish}
                     labelCol={{ span: 4 }}
                 >
-                    <Form.Item label="仓库:"
-                        name="warehouseName"
-                        rules={[{ required: true, message: 'Please input your warehousename!' }]}
+                    <Form.Item label="名称:"
+                        name="itemName"
                     >
-                        <Input placeholder="仓库" />
+                        <Input placeholder="名称" />
+                    </Form.Item>
+                    <Form.Item label="编码:"
+                        name="itemNo"
+                    >
+                        <Input placeholder="编码"
+                        />
+                    </Form.Item>
+                    <Form.Item label="体积:" name="volume">
+                        <InputNumber placeholder="体积"/>                        
+                    </Form.Item>
+                    <Form.Item label="件数:"
+                        name="packageQty"
+                    >
+                        <InputNumber  placeholder="件数"
+                        />
                     </Form.Item>
                     <Form.Item label="备注:" name="remark">
                         <TextArea
@@ -84,4 +98,4 @@ const EditWarehouseModal = ({ id, onClose }) => {
         </>
     );
 };
-export default EditWarehouseModal;
+export default EditItemModal;

@@ -4,13 +4,14 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { buttons, columns } from '@/permissions/user'
 import { userApi } from '@/api'
 import EditUserModal from './edit'
-import MessageModal from "@/components/modal";
-import DataGrid from "../../components/datagrid";
+import MessageModal from "@/components/MessageModal";
+import DataGrid from "../../components/DataGrid";
+import Paging from "@/components/Paging";
 
 import constant from '@/utils/constant'
 const { actionType } = constant
 
-const defaultPage = {
+const defaultFilterParameter = {
     pageNo: 1,
     pageSize: 50,
     keyword: ''
@@ -27,11 +28,21 @@ const User = () => {
     const [showMessageModal, setShowMessageModal] = useState(false);
     const [userId, setEditUserId] = useState(0);
     const [users, setUsers] = useState([])
-    const [page, setPage] = useState(defaultPage)
+    const [filterParameter, setFilterParameter] = useState(defaultFilterParameter)
+    const [page,setPage] = useState({
+        current:1,
+        pageSize:50,
+        total:0
+    })
 
     const loadUsers = async () => {
-        let res = await userApi.pageUsers(`pageNo=${page.pageNo}&pageSize=${page.pageSize}&keyword=${page.keyword}`)
+        let res = await userApi.pageUsers(`pageNo=${filterParameter.pageNo}&pageSize=${filterParameter.pageSize}&keyword=${filterParameter.keyword}`)
         setUsers(res.data.items)
+        setPage({
+            current:res.data.pageNo,
+            pageSize:res.data.pageSize,
+            total:res.data.totalItems
+        })
     }
 
     useEffect(() => {
@@ -40,7 +51,7 @@ const User = () => {
 
     useEffect(() => {
         loadUsers()
-    }, [page])
+    }, [filterParameter])
 
     const onEditClose = (success) => {
         setShowEditModal(false)
@@ -97,17 +108,17 @@ const User = () => {
     }
 
     const onSearch = (val) => {
-        setPage({ ...page, keyword: val })
+        setFilterParameter({ ...filterParameter, keyword: val })
     }
 
     return (
         <>
-            <Row className="mar_bottom">
+            <Row style={{height:'48px',alignItems:'center'}}>
                 <Col>
                     <Search width={800} placeholder="用户名" onSearch={onSearch} enterButton />
                 </Col>
             </Row>
-            <Row className="mar_bottom">
+            <Row style={{height:'48px',alignItems:'center'}}>
                 <Col>
                     <Space>
                         {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
@@ -122,6 +133,15 @@ const User = () => {
                         columnDefs={columns}
                     />
                 </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Paging {...page} 
+                        onChange={(page, pageSize)=>{
+                            console.log(pageSize);
+                            setFilterParameter({...filterParameter, pageNo:page,pageSize:pageSize })
+                        }}/>
+                </Col>                
             </Row>
             {showEditModal ? <EditUserModal id={userId} onClose={onEditClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条用户数据？" /> : <></>}

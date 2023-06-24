@@ -3,14 +3,33 @@ import { Col } from 'antd'
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-balham.css';
 import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community';
+import 'ag-grid-enterprise';
 import AG_GRID_LOCALE_ZH from './locale.zh'
 import { SettingOutlined } from '@ant-design/icons'
 import { useCallback, forwardRef, useState } from "react";
 // import ColumnSettingModal from "../../components/columsetting";
-import ColumnSettingPopover from "../../components/columsetting"
+import ColumnSettingPopover from "../../components/ColumnSetting"
+import { ModuleRegistry } from '@ag-grid-community/core';
+import { ServerSideRowModelModule } from '@ag-grid-enterprise/server-side-row-model';
+import { MenuModule } from '@ag-grid-enterprise/menu';
+import { ColumnsToolPanelModule } from '@ag-grid-enterprise/column-tool-panel';
 
-const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOptions }, ref) => {
+// Register the required feature modules with the Grid
+ModuleRegistry.registerModules([
+  ServerSideRowModelModule,
+  MenuModule,
+  ColumnsToolPanelModule,
+]);
+
+
+const DataGrid = forwardRef(({showRowNoCol = true, rowData, columnDefs, 
+    onSelectionChanged, 
+    treeData,getDataPath,autoGroupColumnDef,rowSelection = 'single',
+    groupSelectsChildren,suppressRowClickSelection,
+    rowGroupOpened,onColumnGroupOpened,groupDefaultExpanded,
+    onRowDragEnd,rowDragManaged,
+    onCellEditingStopped,
+    navigateToNextCell }, ref) => {
 
     const [showColumnSettingModal, setShowColumnSettingModal] = useState(false);
 
@@ -24,7 +43,7 @@ const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOpti
 
     const rowIdColumn = {
         headerName: '#',
-        maxWidth: 80,
+        maxWidth: 50,
         cellRenderer: params => {
             return params.rowIndex + 1;
         },
@@ -36,19 +55,33 @@ const DataGrid = forwardRef(({ rowData, columnDefs, onSelectionChanged, gridOpti
             <SettingOutlined />
         </ColumnSettingPopover>,
     }
+
+    
+
     return (
         <>
             <Col className="ag-theme-balham" flex="auto">
                 <AgGridReact
                     ref={ref}
                     rowData={rowData}
-                    columnDefs={[rowIdColumn, ...columnDefs]}
+                    columnDefs={showRowNoCol ? [rowIdColumn, ...columnDefs] : columnDefs}
                     animateRows={true}
-                    rowSelection={'single'}
+                    rowSelection={rowSelection}
                     localeText={localeText}
+                    treeData={treeData}
                     onSelectionChanged={onSelectionChanged}
                     onSortChanged={onSortChanged}
-                    gridOptions={gridOptions}
+                    getDataPath={getDataPath}
+                    autoGroupColumnDef={autoGroupColumnDef}
+                    groupSelectsChildren={groupSelectsChildren}
+                    suppressRowClickSelection={suppressRowClickSelection}
+                    rowGroupOpened={rowGroupOpened}
+                    onColumnGroupOpened ={onColumnGroupOpened}
+                    groupDefaultExpanded={groupDefaultExpanded}
+                    onRowDragEnd={onRowDragEnd}
+                    rowDragManaged={rowDragManaged}
+                    onCellEditingStopped={onCellEditingStopped}
+                    navigateToNextCell={navigateToNextCell}
                 />
             </Col>
 

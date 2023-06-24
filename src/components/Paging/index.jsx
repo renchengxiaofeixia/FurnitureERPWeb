@@ -1,18 +1,18 @@
 import React from 'react'
 import { Pagination } from 'antd';
-import { Col } from 'antd';
+import { Space } from 'antd';
 
-const Paging = ({pageOptions}) => {
+const Paging = (props) => {
     return (
-        <Col className="paging">
+        <Space className="paging">
             <Pagination
                 showTitle
                 showQuickJumper
                 showSizeChanger
-                {...pageOptions}
+                showTotal={(total) => `总数 ${total} 条`}
+                {...props}
             />
-            <span className="paging_total">共 {pageOptions?.total} 条</span>
-        </Col>
+        </Space>
     )
 }
 

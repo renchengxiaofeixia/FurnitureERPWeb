@@ -1,48 +1,20 @@
-.container {
+
+
+.layout {
   width: 100vw;
-}
-
-.menu {
   height: 100vh;
-  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
-  position: fixed;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 0;
-  }
+  overflow: hidden;
 }
 
 .content {
-  height: 100%;
   display: flex;
-  flex: auto;
   flex-direction: column;
-  width: 100%;
-  margin-left: 220px;
-  overflow-x: hidden;
-  transition: margin .2s;
-
-  &.collapsed {
-    margin-left: 80px;
-    border-right: 1px solid #e5e5e5;
-  }
-
-  &.horizontal {
-    margin-left: 0;
-  }
-
-  .mainContent {
-    margin: 0 16px 16px;
-    padding: 16px;
-    overflow: auto;
-    transition: all .5s;
-  }
 }
 
 .logo-vertical {
+  width: 180px;
   height: 32px;
-  margin: 16px;
+  margin-left: -40px;
   background: rgba(255,255,255,.2);
   border-radius: 6px
 }
@@ -68,50 +40,6 @@
     }
   }
 }
-
-.display_flex {
-  display: flex;
-}
-
-.flex {
-  flex: 1;
-}
-
-.flex_column {
-  flex-direction: column;
-  
-}
-
-.flex_conter {
-  align-items: center;
-  justify-content: center;
-}
-
-
-.mar_top {
-  margin-top: 10px;
-}
-
-.mar_right {
-  margin-right: 10px;
-}
-
-.mar_left {
-  margin-left: 10px;
-}
-
-.mar_bottom {
-  margin-bottom: 10px;
-}
-
-
-body,
-.body-layout {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
 
 img {
   width: 100%;

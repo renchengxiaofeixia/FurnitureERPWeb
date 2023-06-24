@@ -10,8 +10,14 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^29.3.5",
     "@ag-grid-community/core": "^29.3.5",
+    "@ag-grid-enterprise/column-tool-panel": "^29.3.5",
     "@ag-grid-enterprise/core": "^29.3.5",
+    "@ag-grid-enterprise/filter-tool-panel": "^29.3.5",
+    "@ag-grid-enterprise/menu": "^29.3.5",
+    "@ag-grid-enterprise/server-side-row-model": "^29.3.5",
+    "@ag-grid-enterprise/set-filter": "^29.3.5",
     "@ant-design/pro-components": "^2.4.12",
     "@iconify/react": "^4.1.0",
     "@reduxjs/toolkit": "^1.9.3",
@@ -27,6 +33,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
     "react-use": "^17.4.0",
+    "reset": "^0.1.0",
     "reset-css": "^5.0.1",
     "sass": "^1.62.0"
   },

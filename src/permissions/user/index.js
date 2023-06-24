@@ -4,15 +4,18 @@ const { actionType } = constant
 
 export const buttons = [
   {
+    id:'new',
     text: '新增',
     type: 'primary',
     action: actionType.ADD
   },
   {
+    id:'edit',
     text: '修改',
     action: actionType.EDIT
   },
   {
+    id:'delete',
     text: '删除',
     danger: true,
     action: actionType.DELETE

@@ -15,12 +15,14 @@ import routes from '@/router'
 const { Header, Content, Footer, Sider } = Layout;
 
 const AppLayout = () => {
-  // const userInfo = useSelector(state => state.login)
+  const userInfo = useSelector(state => state.login)
   const collapsed = useSelector(state => state.app)
 
-  const [value, setValue] = useLocalStorage('openTabKeys', [{ key: 'dashboard', label: '控制面板', parentKey: '' }]);
-  const defaultTabPane = routes.filter(r => value.some(k => k.key == r.path)).map(r => {
-    const openTab = value.find(k => k.key == r.path)
+  const [localOpenTabKeys, setLocalOpenTabKeys] = useLocalStorage('openTabKeys', [{ key: 'dashboard', label: '控制面板', parentKey: '' }]);  
+  const [localTabActiveKey, setLocalTabActiveKey] = useLocalStorage('tabActiveKey','dashboard'); 
+
+  const defaultTabPane = routes.filter(r => localOpenTabKeys.some(k => k.key == r.path)).map(r => {
+    const openTab = localOpenTabKeys.find(k => k.key == r.path)
     return { label: openTab.label, key: r.path, children: r.element, closable: !(r.path === 'dashboard') }
   })
   const [tabActiveKey, setTabActiveKey] = useState('dashboard');
@@ -32,16 +34,15 @@ const AppLayout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // const { token } = userInfo
+  const { token } = userInfo
 
-  // useEffect(() => {
-  //   // 未登录
-  //   if (!token) navigate('/login')
-  // }, [token])
+  useEffect(() => {
+    //未登录
+    if (!token) navigate('/login')
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+    
+    selectTab(localTabActiveKey)
+  }, [])
 
   const menuClick = (item) => {
     const route = routes.find(r => item.key.endsWith(r.path))
@@ -56,19 +57,26 @@ const AppLayout = () => {
     else {
       setOpenMenuCacheKeys([item])
     }
-    if (!value.some(k => k.key == route.path)) {
-      setValue([...value, { key: route.path, label: item.domEvent.target.innerText, parentKey: item.keyPath[1] }])
+    if (!localOpenTabKeys.some(k => k.key == route.path)) {
+      setLocalOpenTabKeys([...localOpenTabKeys, { key: route.path, label: item.domEvent.target.innerText, parentKey: item.keyPath[1] }])
     }
   }
 
   const onChange = (newActiveKey) => {
+    setLocalTabActiveKey(newActiveKey)
+    selectTab(newActiveKey)
+    //navigate(item.key)
+  };
+
+  const selectTab = (newActiveKey)=>{
+    
     setTabActiveKey(newActiveKey);
     const menuKey = `/${newActiveKey}`
     setSelectMenuKeys([menuKey])
     const selectMenu = openMenuCacheKeys.find(k => k.key == menuKey)
-    const localStorageValue = value.find(k => k.key == newActiveKey)
-    if (!value.some(k => k.key == newActiveKey)) {
-      setValue([...value, { key: newActiveKey, label: selectMenu.domEvent.target.innerText, parentKey: selectMenu ? selectMenu.keyPath[1] : localStorageValue.parentKey }])
+    const localStorageValue = localOpenTabKeys.find(k => k.key == newActiveKey)
+    if (!localOpenTabKeys.some(k => k.key == newActiveKey)) {
+      setLocalOpenTabKeys([...localOpenTabKeys, { key: newActiveKey, label: selectMenu.domEvent.target.innerText, parentKey: selectMenu ? selectMenu.keyPath[1] : localStorageValue.parentKey }])
     }
     if (selectMenu) {
       setOpenKeys([selectMenu.keyPath[1]]);
@@ -77,8 +85,8 @@ const AppLayout = () => {
       setOpenKeys([localStorageValue.parentKey]);
     }
 
-    //navigate(item.key)
-  };
+  }
+
 
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
@@ -88,7 +96,7 @@ const AppLayout = () => {
     if (targetKey == 'dashboard') return;
     if (action === 'remove') {
       removeTabPane(targetKey);
-      setValue(value.filter(k => k.key !== targetKey))
+      setLocalOpenTabKeys(localOpenTabKeys.filter(k => k.key !== targetKey))
     }
   };
 
@@ -114,13 +122,16 @@ const AppLayout = () => {
 
   return (
     <App>
-      <Layout className='body-layout'>
-        <Header style={{ height: '40px' }}></Header>
+      <Layout className='layout'>
+        <Header style={{ height: '64px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <div className='logo-vertical'></div>
+          <div></div>
+        </Header>
         <Layout>
           <Sider collapsible onCollapse={() => dispatch(setCollapsed(!collapsed))} style={{
-            background: colorBgContainer,
+            background: '#001529',
           }}>
-            <Menu defaultSelectedKeys={['/dashboard']} selectedKeys={selectMenuKeys}
+            <Menu theme='dark' defaultSelectedKeys={['/dashboard']} selectedKeys={selectMenuKeys}
               mode="inline"
               items={menus}
               onClick={menuClick}
@@ -129,7 +140,7 @@ const AppLayout = () => {
             />
           </Sider>
 
-          <Content className='display_flex flex_column'>
+          <Content className='content'>
             <Tabs className='tab_heade_content'
               hideAdd
               size='small'
@@ -141,13 +152,13 @@ const AppLayout = () => {
             >
             </Tabs>
             {/* <Outlet /> */}
-            <Footer
+            {/* <Footer
               style={{
                 textAlign: 'center',
               }}
             >
               Ant Design ©2023 Created by Ant UED
-            </Footer>
+            </Footer> */}
           </Content>
         </Layout>
       </Layout>

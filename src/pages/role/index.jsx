@@ -6,10 +6,21 @@ import { roleApi } from '@/api'
 import EditRoleModal from './edit'
 import RoleUserModal from "./roleuser";
 import RolePermitModal from "./rolepermit";
-import MessageModal from "@/components/modal";
+import MessageModal from "@/components/MessageModal";
 import DataGrid from "../../components/datagrid";
 import constant from '@/utils/constant'
+import Paging from "@/components/Paging";
+
 const { actionType } = constant
+
+const defaultFilterParameter = {
+    pageNo: 1,
+    pageSize: 50,
+    keyword: ''
+}
+
+
+const { Search } = Input;
 
 const Role = () => {
     const { message } = App.useApp();
@@ -19,16 +30,32 @@ const Role = () => {
     const [showRolePermitModal, setShowRolePermitModal] = useState(false);
     const [showMessageModal, setShowMessageModal] = useState(false);
     const [roleId, setEditRoleId] = useState(0);
+    const [roleName, setRoleName] = useState('');
     const [roles, setRoles] = useState([])
+    const [filterParameter, setFilterParameter] = useState(defaultFilterParameter)
+    const [page,setPage] = useState({
+        current:1,
+        pageSize:50,
+        total:0
+    })
 
     const loadRoles = async () => {
-        let res = await roleApi.getRoles()
-        setRoles(res.data)
+        let res = await roleApi.pageRoles(`pageNo=${filterParameter.pageNo}&pageSize=${filterParameter.pageSize}&keyword=${filterParameter.keyword}`)
+        setRoles(res.data.items)
+        setPage({
+            current:res.data.pageNo,
+            pageSize:res.data.pageSize,
+            total:res.data.totalItems
+        })
     }
 
     useEffect(() => {
         loadRoles()
     }, [])
+
+    useEffect(() => {
+        loadRoles()
+    }, [filterParameter])
 
     const onEditClose = (success) => {
         setShowEditModal(false)
@@ -60,6 +87,7 @@ const Role = () => {
             return false
         }
         setEditRoleId(selectedRole.id)
+        setRoleName(selectedRole.roleName)
         return true
     }
 
@@ -110,26 +138,38 @@ const Role = () => {
         }
     }
 
-
+    const onSearch = (val) => {
+        setFilterParameter({ ...filterParameter, keyword: val })
+    }
 
     return (
         <>
-            <Row style={{ height: '40px', alignItems: "center" }}>
+            <Row style={{height:'48px',alignItems:'center'}}>
+                <Col>
+                    <Search width={800} placeholder="角色名" onSearch={onSearch} enterButton />
+                </Col>
+            </Row>
+            <Row style={{height:'48px',alignItems:'center'}}>
                 <Col>
                     <Space>
                         {buttons.map((btn, idx) => <Button key={idx} {...btn} onClick={() => buttonClick(btn.action)} >{btn.text}</Button>)}
                     </Space>
                 </Col>
             </Row>
-            <Row className="flex">
-                <DataGrid
-                    ref={gridRef}
-                    rowData={roles}
-                    columnDefs={columns}
-                />
+            <DataGrid
+                ref={gridRef}
+                rowData={roles}
+                columnDefs={columns}
+            />
+            <Row>
+                <Col>
+                    <Paging {...page} 
+                        onChange={(page, pageSize)=>{
+                            setFilterParameter({...filterParameter, pageNo:page,pageSize:pageSize })
+                        }}/>
+                </Col>                
             </Row>
-
-            {showRolePermitModal ? <RolePermitModal id={roleId} onClose={onRolePermitClose} /> : <></>}
+            {showRolePermitModal ? <RolePermitModal id={roleId} roleName={roleName} onClose={onRolePermitClose} /> : <></>}
             {showRoleUserModal ? <RoleUserModal id={roleId} onClose={onRoleUserClose} /> : <></>}
             {showEditModal ? <EditRoleModal id={roleId} onClose={onEditClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条角色数据？" /> : <></>}

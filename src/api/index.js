@@ -1,8 +1,9 @@
 import {signin,signup} from '@/api/auth' 
 import {getUsers,createUser,updateUser,deleteUser,getUser,pageUsers} from '@/api/user' 
-import {getRoles,createRole,updateRole,deleteRole,getRole,createUserRole,getRoleUsers} from '@/api/role' 
+import {getRoles,createRole,updateRole,deleteRole,getRole,createUserRole,getRoleUsers,pageRoles,createRolePermits,getRolePermits} from '@/api/role' 
 import {getWarehouses,createWarehouse,updateWarehouse,deleteWarehouse,getWarehouse} from '@/api/warehouse' 
 import {getShops,createShop,updateShop,deleteShop,getShop} from '@/api/shop' 
+import {createItem,getItem,getSubItems,deleteItem,updateItem,pageItems,getCats,updateCat,batchUpdateCat} from '@/api/item' 
 export const authApi = {
     signin,signup
 }
@@ -12,7 +13,7 @@ export const userApi = {
 }
 
 export const roleApi = {
-    getRoles,createRole,updateRole,deleteRole,getRole,createUserRole,getRoleUsers
+    getRoles,createRole,updateRole,deleteRole,getRole,createUserRole,getRoleUsers,pageRoles,createRolePermits,getRolePermits
 }
 
 export const warehouseApi = {
@@ -21,4 +22,8 @@ export const warehouseApi = {
 
 export const shopApi = {
     getShops,createShop,updateShop,deleteShop,getShop
+}
+
+export const itemApi = {
+    createItem,getItem,getSubItems,deleteItem,updateItem,pageItems,getCats,updateCat,batchUpdateCat
 }
