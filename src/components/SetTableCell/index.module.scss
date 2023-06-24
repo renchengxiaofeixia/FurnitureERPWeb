@@ -1,0 +1,30 @@
+.table_state {
+    display: flex;
+    align-items: center;
+
+    .table_state_dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        margin-right: 6px;
+
+    }
+
+    .table_state_enable {
+        background-color: #52c41a;
+    }
+
+    .table_state_disabled {
+        background-color: #d9d9d9;
+    }
+
+    .table_state_del {
+        background-color: #ff4d4f;
+    }
+
+}
+
+.table_cell_images {
+    width: auto;
+    height: auto;
+}
