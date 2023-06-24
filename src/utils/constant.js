@@ -17,7 +17,8 @@ const buttonActionType = {
     BATCH_ADD: 1 << 14,
     BATCH_EDIT: 1 << 15,
     CREATE_ROLEUSER : 1<<16,    
-    ROLE_PERMIT : 1<<17
+    ROLE_PERMIT : 1<<17,
+    ADD_SUBITEM : 1<<18
 }
 
 export default {

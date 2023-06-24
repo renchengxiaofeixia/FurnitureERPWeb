@@ -4,11 +4,14 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { buttons, columns } from '@/permissions/item'
 import { itemApi } from '@/api'
 import EditItemModal from './edit'
+import AddSubItemModal from './subitem'
 import MessageModal from "@/components/MessageModal";
 import DataGrid from "../../components/DataGrid";
 import Paging from "@/components/Paging";
 
 import constant from '@/utils/constant'
+
+
 const { actionType } = constant
 
 const defaultFilterParameter = {
@@ -26,7 +29,9 @@ const Item = () => {
     const gridRef = useRef()
     const [showEditModal, setShowEditModal] = useState(false);
     const [showMessageModal, setShowMessageModal] = useState(false);
+    const [showAddSubItemModal, setShowAddSubItemModal] = useState(false);
     const [itemId, setEditItemId] = useState(0);
+    const [itemNo, setItemNo] = useState('');
     const [items, setItems] = useState([])
     const [filterParameter, setFilterParameter] = useState(defaultFilterParameter)
     const [page,setPage] = useState({
@@ -60,6 +65,12 @@ const Item = () => {
         }
     }
 
+    const onAddSubItemClose = (success) => {
+        setShowAddSubItemModal(false)
+        if (success) {
+            loadItems()
+        }
+    }
     const onMessageModalClose = async (ok) => {
         setShowMessageModal(false)
         if (ok) {
@@ -99,6 +110,16 @@ const Item = () => {
                     return
                 }
                 setShowMessageModal(true)
+                break;
+            case actionType.ADD_SUBITEM:                
+                let item = gridRef.current.api.getSelectedRows()[0]
+                if (!item) {
+                    message.info('请选择一条商品数据!!')
+                    return
+                }
+                setShowAddSubItemModal(true)
+                setEditItemId(item.id)
+                setItemNo(item.itemNo)
                 break;
             default:
                 console.log('ddddd');
@@ -143,6 +164,7 @@ const Item = () => {
                 </Col>                
             </Row>
             {showEditModal ? <EditItemModal id={itemId} onClose={onEditClose} /> : <></>}
+            {showAddSubItemModal ? <AddSubItemModal id={itemId} itemNo={itemNo} onClose={onAddSubItemClose} /> : <></>}
             {showMessageModal ? <MessageModal open={showMessageModal} onClose={onMessageModalClose} message="确定删除这条商品数据？" /> : <></>}
         </>
     )

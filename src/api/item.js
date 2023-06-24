@@ -6,9 +6,11 @@ export const createItem = (item) => request.post('/item', item)
 
 // 获取产品详情
 export const getItem = (id) => request.get(`/item/${id}`);
+export const getItems = ()=> request.get(`/items`);
 
 // 获取商品子列表
-export const getSubItems = (id) => request.get(`/item/subItems/${id}`);
+export const getSubItems = (id) => request.get(`/item/subitems/${id}`);
+export const updateSubItems = (id,item) => request.put(`/item/subitems/${id}`,item);
 
 //删除产品
 export const deleteItem = (id) => request.delete(`/item/${id}`);

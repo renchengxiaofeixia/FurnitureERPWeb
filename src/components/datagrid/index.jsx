@@ -22,14 +22,7 @@ ModuleRegistry.registerModules([
 ]);
 
 
-const DataGrid = forwardRef(({showRowNoCol = true, rowData, columnDefs, 
-    onSelectionChanged, 
-    treeData,getDataPath,autoGroupColumnDef,rowSelection = 'single',
-    groupSelectsChildren,suppressRowClickSelection,
-    rowGroupOpened,onColumnGroupOpened,groupDefaultExpanded,
-    onRowDragEnd,rowDragManaged,
-    onCellEditingStopped,
-    navigateToNextCell }, ref) => {
+const DataGrid = forwardRef(({showRowIdCol =true,showAddCol = false,rowSelection = 'single',...props}, ref) => {
 
     const [showColumnSettingModal, setShowColumnSettingModal] = useState(false);
 
@@ -41,6 +34,27 @@ const DataGrid = forwardRef(({showRowNoCol = true, rowData, columnDefs,
         ref.current.api.refreshCells();
     }, []);
 
+    const addColumn = {
+        headerName: ' ',
+        maxWidth: 56,      
+        pinned: 'right',
+        cellRenderer: (props)=>(
+        <span>
+          <button style={{width:'24px'}} onClick={()=>
+          {
+            let rows = ref.current.api.getRenderedNodes().map(k=>k.data);
+            ref.current.api.setRowData([...rows,{}])          
+          }} >+</button> 
+          <button style={{width:'24px'}} onClick={()=>
+          {
+            var selectedRowData = ref.current.api.getSelectedRows();
+            ref.current.api.applyTransaction({ remove: selectedRowData });
+  
+          }}>-</button>
+        </span>),
+        cellStyle:{padding:0,margin:0}
+      }
+
     const rowIdColumn = {
         headerName: '#',
         maxWidth: 50,
@@ -51,11 +65,13 @@ const DataGrid = forwardRef(({showRowNoCol = true, rowData, columnDefs,
         //     setShowColumnSettingModal(true)
         // }}/>,
 
-        headerComponent: () => <ColumnSettingPopover columns={columnDefs}>
+        headerComponent: () => <ColumnSettingPopover columns={props.columnDefs}>
             <SettingOutlined />
         </ColumnSettingPopover>,
     }
 
+    let columns = showRowIdCol ? [rowIdColumn, ...props.columnDefs] : props.columnDefs;
+    columns = showAddCol ? [...columns,addColumn] : columns;
     
 
     return (
@@ -63,29 +79,29 @@ const DataGrid = forwardRef(({showRowNoCol = true, rowData, columnDefs,
             <Col className="ag-theme-balham" flex="auto">
                 <AgGridReact
                     ref={ref}
-                    rowData={rowData}
-                    columnDefs={showRowNoCol ? [rowIdColumn, ...columnDefs] : columnDefs}
+                    rowData={props.rowData}
+                    columnDefs={columns}
                     animateRows={true}
                     rowSelection={rowSelection}
                     localeText={localeText}
-                    treeData={treeData}
-                    onSelectionChanged={onSelectionChanged}
+                    treeData={props.treeData}
+                    onSelectionChanged={props.onSelectionChanged}
                     onSortChanged={onSortChanged}
-                    getDataPath={getDataPath}
-                    autoGroupColumnDef={autoGroupColumnDef}
-                    groupSelectsChildren={groupSelectsChildren}
-                    suppressRowClickSelection={suppressRowClickSelection}
-                    rowGroupOpened={rowGroupOpened}
-                    onColumnGroupOpened ={onColumnGroupOpened}
-                    groupDefaultExpanded={groupDefaultExpanded}
-                    onRowDragEnd={onRowDragEnd}
-                    rowDragManaged={rowDragManaged}
-                    onCellEditingStopped={onCellEditingStopped}
-                    navigateToNextCell={navigateToNextCell}
+                    getDataPath={props.getDataPath}
+                    autoGroupColumnDef={props.autoGroupColumnDef}
+                    groupSelectsChildren={props.groupSelectsChildren}
+                    suppressRowClickSelection={props.suppressRowClickSelection}
+                    rowGroupOpened={props.rowGroupOpened}
+                    onColumnGroupOpened ={props.onColumnGroupOpened}
+                    groupDefaultExpanded={props.groupDefaultExpanded}
+                    onRowDragEnd={props.onRowDragEnd}
+                    rowDragManaged={props.rowDragManaged}
+                    onCellEditingStopped={props.onCellEditingStopped}
+                    navigateToNextCell={props.navigateToNextCell}
                 />
             </Col>
 
-            {showColumnSettingModal ? <ColumnSettingModal columns={columnDefs} onClose={() => setShowColumnSettingModal(false)} /> : <></>}
+            {showColumnSettingModal ? <ColumnSettingModal columns={props.columnDefs} onClose={() => setShowColumnSettingModal(false)} /> : <></>}
         </>
     )
 })

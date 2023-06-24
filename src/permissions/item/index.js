@@ -20,9 +20,9 @@ export const buttons = [
         action:actionType.DELETE
     },
     {
-        id:'roleuser',
+        id:'add_subitem',
         text:'添加子商品',
-        action:actionType.CREATE_ROLEUSER
+        action:actionType.ADD_SUBITEM
     },
     {
         id:'import',

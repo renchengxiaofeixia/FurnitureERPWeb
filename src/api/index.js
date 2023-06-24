@@ -3,7 +3,7 @@ import {getUsers,createUser,updateUser,deleteUser,getUser,pageUsers} from '@/api
 import {getRoles,createRole,updateRole,deleteRole,getRole,createUserRole,getRoleUsers,pageRoles,createRolePermits,getRolePermits} from '@/api/role' 
 import {getWarehouses,createWarehouse,updateWarehouse,deleteWarehouse,getWarehouse} from '@/api/warehouse' 
 import {getShops,createShop,updateShop,deleteShop,getShop} from '@/api/shop' 
-import {createItem,getItem,getSubItems,deleteItem,updateItem,pageItems,getCats,updateCat,batchUpdateCat} from '@/api/item' 
+import {createItem,getItem,getItems,getSubItems,updateSubItems,deleteItem,updateItem,pageItems,getCats,updateCat,batchUpdateCat} from '@/api/item' 
 export const authApi = {
     signin,signup
 }
@@ -25,5 +25,5 @@ export const shopApi = {
 }
 
 export const itemApi = {
-    createItem,getItem,getSubItems,deleteItem,updateItem,pageItems,getCats,updateCat,batchUpdateCat
+    createItem,getItem,getItems,getSubItems,updateSubItems,deleteItem,updateItem,pageItems,getCats,updateCat,batchUpdateCat
 }
