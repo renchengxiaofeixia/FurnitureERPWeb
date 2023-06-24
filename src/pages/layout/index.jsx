@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { Layout, Menu, theme, App, Tabs } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { setCollapsed } from "@/store/modules/app";
@@ -16,15 +16,15 @@ const { Header, Content, Footer, Sider } = Layout;
 const AppLayout = () => {
   const userInfo = useSelector((state) => state.login);
   const collapsed = useSelector((state) => state.app);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const [localOpenTabKeys, setLocalOpenTabKeys] = useLocalStorage(
     "openTabKeys",
     [{ key: "dashboard", label: "控制面板", parentKey: "" }]
   );
-  const [localTabActiveKey, setLocalTabActiveKey] = useLocalStorage(
-    "tabActiveKey",
-    "dashboard"
-  );
+
 
   const defaultTabPane = routes
     .filter((r) => localOpenTabKeys.some((k) => k.key == r.path))
@@ -39,12 +39,28 @@ const AppLayout = () => {
     });
   const [tabActiveKey, setTabActiveKey] = useState("dashboard");
   const [selectMenuKeys, setSelectMenuKeys] = useState([]);
-  const [openMenuCacheKeys, setOpenMenuCacheKeys] = useState([]);
+
   const [tabPanes, setTabPanes] = useState(defaultTabPane);
   const [openKeys, setOpenKeys] = useState([]);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  useEffect(() => {
+    let path = location.pathname.slice(1);
+    let selectMenu = menus.find((k) => {
+      let pathname = "/" + k.key === location.pathname;
+      let subMenu;
+      if (k.key !== location.pathname) {
+        subMenu = k.children?.find((j) => j.key === location.pathname);
+      }
+      return subMenu || pathname;
+    });
+    let isTabMenu = tabPanes.some((e) => e.key === path);
+    if (!isTabMenu) {
+      navigate("/dashboard");
+    }
+    setTabActiveKey(path);
+    setSelectMenuKeys(location.pathname);
+    setOpenKeys([selectMenu?.key || ""]);
+  }, [location]);
 
   const menuClick = (item) => {
     const route = routes.find((r) => item.key.endsWith(r.path));
@@ -58,13 +74,7 @@ const AppLayout = () => {
         },
       ]);
     }
-    setTabActiveKey(route.path);
-    setSelectMenuKeys([item.key]);
-    if (!openMenuCacheKeys.some((k) => k.key == item.key)) {
-      setOpenMenuCacheKeys([...openMenuCacheKeys, item]);
-    } else {
-      setOpenMenuCacheKeys([item]);
-    }
+
     if (!localOpenTabKeys.some((k) => k.key == route.path)) {
       setLocalOpenTabKeys([
         ...localOpenTabKeys,
@@ -75,40 +85,15 @@ const AppLayout = () => {
         },
       ]);
     }
+    navigate(item.key);
   };
 
   const onChange = (newActiveKey) => {
-    setLocalTabActiveKey(newActiveKey);
-    selectTab(newActiveKey);
-    //navigate(item.key)
+
+    navigate(newActiveKey);
   };
 
-  const selectTab = (newActiveKey) => {
-    setTabActiveKey(newActiveKey);
-    const menuKey = `/${newActiveKey}`;
-    setSelectMenuKeys([menuKey]);
-    const selectMenu = openMenuCacheKeys.find((k) => k.key == menuKey);
-    const localStorageValue = localOpenTabKeys.find(
-      (k) => k.key == newActiveKey
-    );
-    if (!localOpenTabKeys.some((k) => k.key == newActiveKey)) {
-      setLocalOpenTabKeys([
-        ...localOpenTabKeys,
-        {
-          key: newActiveKey,
-          label: selectMenu.domEvent.target.innerText,
-          parentKey: selectMenu
-            ? selectMenu.keyPath[1]
-            : localStorageValue.parentKey,
-        },
-      ]);
-    }
-    if (selectMenu) {
-      setOpenKeys([selectMenu.keyPath[1]]);
-    } else if (localStorageValue) {
-      setOpenKeys([localStorageValue.parentKey]);
-    }
-  };
+
 
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
