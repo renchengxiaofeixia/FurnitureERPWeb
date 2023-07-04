@@ -74,6 +74,14 @@ const DataGrid = forwardRef(({showRowIdCol =true,showAddCol = false,rowSelection
     columns = showAddCol ? [...columns,addColumn] : columns;
     
 
+    const modelUpdated = useCallback(() => {
+        console.log(111);
+        const allColumnIds = [];
+        gridRef.current.columnApi.getColumns().forEach((column) => {
+          allColumnIds.push(column.getId());
+        });
+        gridRef.current.columnApi.autoSizeColumns(allColumnIds);
+      }, []);
     return (
         <>
             <Col className="ag-theme-balham" flex="auto">
@@ -98,6 +106,7 @@ const DataGrid = forwardRef(({showRowIdCol =true,showAddCol = false,rowSelection
                     rowDragManaged={props.rowDragManaged}
                     onCellEditingStopped={props.onCellEditingStopped}
                     navigateToNextCell={props.navigateToNextCell}
+                    modelUpdated = {modelUpdated}
                 />
             </Col>
 
